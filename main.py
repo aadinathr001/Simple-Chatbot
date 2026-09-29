@@ -24,7 +24,7 @@ limiter = Limiter(key_func=get_remote_address)
 
 app = FastAPI(
     title="GPT-OSS-20B Chatbot API",
-    description="Portfolio API proxy for openai/gpt-oss-20b powered by Groq Cloud",
+    description="API proxy for gpt powered by Groq Cloud",
     version="1.0.0"
 )
 
@@ -97,8 +97,8 @@ async def chat_endpoint(request: Request, body: ChatRequest):
     system_prompt = {
         "role": "system",
         "content": (
-            "You are a professional, courteous, and knowledgeable portfolio AI assistant "
-            "powered by openai/gpt-oss-20b on Groq. Provide clear, concise, and helpful responses. "
+            "You are a professional, courteous, and knowledgeable AI assistant "
+            "Provide clear, concise, and helpful responses exactly to the question asked. "
             "Format code snippets and structured concepts using clean markdown formatting."
         )
     }
@@ -172,4 +172,4 @@ if __name__ == "__main__":
     import uvicorn
     print(f"🤖 Chatbot server running at http://localhost:{PORT}")
     print(f"Using Groq model: {GROQ_MODEL}")
-    uvicorn.run("main:app", host="0.0.0.0", port=PORT, reload=True)
+    uvicorn.run("main:app", host="127.0.0.1", port=PORT, reload=True)

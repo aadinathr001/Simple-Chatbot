@@ -79,7 +79,7 @@ Open `.env` in your editor and enter your Groq API key:
 ```env
 GROQ_API_KEY=gsk_your_actual_groq_api_key_here
 GROQ_MODEL=openai/gpt-oss-20b
-PORT=3000
+PORT=8000
 ```
 
 ### 3. Run Automated Tests
@@ -92,7 +92,7 @@ All tests verify endpoint availability, input validation, rate limiting, and err
 ```powershell
 .\venv\Scripts\python.exe main.py
 ```
-Open [http://localhost:3000](http://localhost:3000) in your browser to start chatting with `openai/gpt-oss-20b`.
+Open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser to start chatting with `openai/gpt-oss-20b`. Check the API health at [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health).
 
 ---
 
