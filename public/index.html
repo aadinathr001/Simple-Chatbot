@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GPT-OSS-20B Chatbot | Portfolio Demo</title>
   <meta name="description" content="A fast, full-stack AI chatbot powered by openai/gpt-oss-20b on Groq with an Express.js backend." />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>" />
-  <!-- Google Fonts for sleek developer-portfolio typography -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>&#x26A1;</text></svg>" />
+  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -17,17 +17,18 @@
     <!-- Top Header -->
     <header class="app-header">
       <div class="brand">
-        <div class="logo-icon">⚡</div>
+        <div class="logo-icon">&#x26A1;</div>
         <div class="brand-text">
           <h1>GPT-OSS-20B Assistant</h1>
           <div class="status-indicator">
             <span class="status-dot"></span>
-            <span class="status-text" id="statusText">Groq Cloud • Ready</span>
+            <span class="status-text" id="statusText">Groq Cloud &bull; Ready</span>
           </div>
         </div>
       </div>
       <div class="header-actions">
-        <button id="aboutBtn" class="btn-secondary" title="Project Architecture & Details">
+        <button id="themeBtn" class="btn-theme" title="Switch to light mode" aria-label="Toggle theme">&#x1F319;</button>
+        <button id="aboutBtn" class="btn-secondary" title="Project Architecture &amp; Details">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="10"></circle>
             <line x1="12" y1="16" x2="12" y2="12"></line>
@@ -51,15 +52,15 @@
       <div class="messages-list" id="messagesList">
         <!-- Initial Assistant Message -->
         <div class="message-row assistant">
-          <div class="avatar">⚡</div>
+          <div class="avatar">&#x26A1;</div>
           <div class="message-bubble">
             <div class="message-header">
               <span class="sender-name">GPT-OSS-20B</span>
               <span class="model-tag">Groq LPUs</span>
             </div>
             <div class="message-body">
-              <p>Hello! I am a AI chatbot powered by <code>openai/gpt-oss-20b</code> running on Groq's high-speed inference engine.</p>
-              <p></p>
+              <p>Hello! I am an AI chatbot powered by <code>openai/gpt-oss-20b</code> running on Groq's high-speed inference engine.</p>
+              <p>Ask a question or select one of the topics below to get started:</p>
             </div>
           </div>
         </div>
@@ -71,13 +72,14 @@
         <span>Waking up free-tier cloud server from sleep... Thanks for your patience!</span>
       </div>
 
-      <!-- Quick Starter Chips -->
-      <div class="starter-chips" id="starterChips">
-        <button class="chip" data-prompt="How does this app protect the Groq API key?">🔒 Security Architecture</button>
-        <button class="chip" data-prompt="What makes Groq inference so fast?">⚡ Groq LPUs</button>
-        <button class="chip" data-prompt="Explain openai/gpt-oss-20b model specifications.">🧠 GPT-OSS-20B Specs</button>
-      </div>
     </main>
+
+    <!-- Quick Starter Chips (outside scroll area so all are always visible) -->
+    <div class="starter-chips" id="starterChips">
+      <button type="button" class="chip" data-prompt="How does this app protect the Groq API key?" aria-label="Ask how this app protects the Groq API key">&#x1F512; Security Architecture</button>
+      <button type="button" class="chip" data-prompt="What makes Groq inference so fast?" aria-label="Ask what makes Groq inference so fast">&#x26A1; Groq LPUs</button>
+      <button type="button" class="chip" data-prompt="Explain openai/gpt-oss-20b model specifications." aria-label="Ask about openai/gpt-oss-20b specifications">&#x1F9E0; GPT-OSS-20B Specs</button>
+    </div>
 
     <!-- Input Box & Controls -->
     <footer class="app-footer">
@@ -103,9 +105,9 @@
       </form>
       <div class="footer-links">
         <span>Portfolio Project</span>
-        <span class="sep">•</span>
-        <a href="https://github.com" target="_blank" rel="noopener noreferrer" id="githubLink">GitHub Repository</a>
-        <span class="sep">•</span>
+        <span class="sep">&bull;</span>
+        <a href="https://github.com/aadinathr001/Simple-Chatbot" target="_blank" rel="noopener noreferrer" id="githubLink">GitHub Repository</a>
+        <span class="sep">&bull;</span>
         <a href="https://groq.com" target="_blank" rel="noopener noreferrer">Powered by Groq Cloud</a>
       </div>
     </footer>
@@ -120,16 +122,16 @@
       </div>
       <div class="modal-body">
         <div class="modal-section">
-          <h3>🎯 Overview</h3>
+          <h3>&#x1F3AF; Overview</h3>
           <p>
             This portfolio project demonstrates a production-grade, secure LLM client-server architecture built to showcase rapid inference using Groq and the open-weight <code>openai/gpt-oss-20b</code> model.
           </p>
         </div>
 
         <div class="modal-section">
-          <h3>🏗️ Architecture</h3>
+          <h3>&#x1F3D7; Architecture</h3>
           <div class="arch-box">
-            <code>[Browser Client] ➔ [Express Proxy / Rate Limiter] ➔ [Groq API] ➔ [gpt-oss-20b]</code>
+            <code>[Browser Client] &rarr; [Express Proxy / Rate Limiter] &rarr; [Groq API] &rarr; [gpt-oss-20b]</code>
           </div>
           <p>
             <strong>Key Security Principle:</strong> The Groq API key is stored exclusively in backend environment variables (never in frontend code or bundle), preventing token leakage.
@@ -137,7 +139,7 @@
         </div>
 
         <div class="modal-section">
-          <h3>🛡️ Built-in Safeguards</h3>
+          <h3>&#x1F6E1; Built-in Safeguards</h3>
           <ul>
             <li><strong>Rate Limiting:</strong> IP-based request throttling using <code>express-rate-limit</code> to safeguard free-tier quota.</li>
             <li><strong>Input Validation:</strong> Server-side 500-character input capping and schema sanitation.</li>
@@ -146,7 +148,7 @@
         </div>
 
         <div class="modal-section">
-          <h3>⚙️ Tech Stack</h3>
+          <h3>&#x2699; Tech Stack</h3>
           <div class="badge-grid">
             <span class="badge">Node.js</span>
             <span class="badge">Express.js</span>

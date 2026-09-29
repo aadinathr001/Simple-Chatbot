@@ -17,7 +17,7 @@ load_dotenv()
 
 GROQ_API_KEY = os.getenv("GROQ_API_KEY", "")
 GROQ_MODEL = os.getenv("GROQ_MODEL", "openai/gpt-oss-20b")
-PORT = int(os.getenv("PORT", 3000))
+PORT = int(os.getenv("PORT", 8000))
 
 # Initialize Rate Limiter: max 30 requests per 15 minutes per IP
 limiter = Limiter(key_func=get_remote_address)
@@ -98,7 +98,7 @@ async def chat_endpoint(request: Request, body: ChatRequest):
         "role": "system",
         "content": (
             "You are a professional, courteous, and knowledgeable AI assistant "
-            "Provide clear, concise, and helpful responses exactly to the question asked. "
+            "Provide clear and very concise, and helpful responses exactly to the question asked. "
             "Format code snippets and structured concepts using clean markdown formatting."
         )
     }
@@ -169,7 +169,13 @@ async def catch_all(full_path: str):
     raise HTTPException(status_code=404, detail="File not found")
 
 if __name__ == "__main__":
+    import sys
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8")
+        except Exception:
+            pass
     import uvicorn
-    print(f"🤖 Chatbot server running at http://localhost:{PORT}")
-    print(f"Using Groq model: {GROQ_MODEL}")
+    print(f"[*] Chatbot server running at http://127.0.0.1:{PORT}")
+    print(f"[*] Using Groq model: {GROQ_MODEL}")
     uvicorn.run("main:app", host="127.0.0.1", port=PORT, reload=True)
