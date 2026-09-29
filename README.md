@@ -98,7 +98,7 @@ Follow these steps to run the chatbot locally.
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/simple-chatbot.git
+git clone https://github.com/aadinathr001/simple-chatbot.git
 cd simple-chatbot
 ```
 
