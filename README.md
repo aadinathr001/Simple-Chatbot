@@ -1,131 +1,123 @@
-# ⚡ Simple Chatbot Portfolio Project
 
-A production-grade, link-shareable AI chatbot web application powered by `openai/gpt-oss-20b` via Groq's low-latency inference engine, with a secured backend proxy (FastAPI / Python with `venv`), rate limiting, and a modern responsive dark-mode frontend.
+```markdown
+# ⚡ Simple Chatbot
+
+A link-shareable AI chatbot powered by `openai/gpt-oss-20b` via Groq's low-latency inference API, with a secure FastAPI backend proxy, rate limiting, and a responsive dark-mode frontend.
+
+**[Live Demo →](https://simple-chatbot-kkxd.onrender.com/)**
 
 ---
 
-## 🚀 Live Demo
-> **[Click here to open the Live Demo](https://your-chatbot-name.onrender.com)** 
-
----
-
-## 🏗️ Architecture
+## Architecture
 
 ```
-[Browser Client: Vanilla JS / CSS]
-               │
-               ▼  (HTTP POST /api/chat - rate-limited & sanitized)
-[Backend API Proxy (FastAPI / Uvicorn)]
-               │  (Injects secret process.env / os.getenv GROQ_API_KEY)
-               ▼
-[Groq Cloud API: openai/gpt-oss-20b]
+Browser (HTML/CSS/JS)
+      │  POST /api/chat
+      ▼
+FastAPI Backend (rate-limited, sanitized)
+      │  server-side GROQ_API_KEY
+      ▼
+Groq Cloud API (openai/gpt-oss-20b)
 ```
 
-### 🔒 Key Security & Architectural Principles
-- **No Client Token Leakage:** The Groq API key is stored strictly on the server in environment variables (`GROQ_API_KEY`), never exposed to browser bundles or client network traces.
-- **Abuse Prevention:** IP-based rate limiting via `slowapi` prevents accidental quota exhaustion on public links.
-- **Input Guardrails:** Server-enforced 500-character input capping and schema sanitation using Pydantic.
-- **Multi-turn Context Memory:** In-memory conversation state preserves dialog context across turns while maintaining a strict token budget.
-- **Resilient Cold Starts:** Integrated client notice gracefully alerts recruiters when Render's free tier spins up from idle sleep (~30–50s).
+**Key design principles**
+- **No key leakage** — `GROQ_API_KEY` lives only in server env vars, never sent to the client.
+- **Abuse prevention** — IP-based rate limiting via `slowapi` (30 req / 15 min).
+- **Input validation** — 500-char cap + Pydantic schema enforcement.
+- **Context memory** — in-memory multi-turn conversation state with a bounded token budget.
+- **Cold start handling** — UI notice for Render free-tier wake-up delay (~30–50s).
 
 ---
 
-## 🧰 Tech Stack
+## Tech Stack
 
-| Layer | Technology | Rationale |
-|---|---|---|
-| **Frontend** | HTML5, Modern CSS, Vanilla JavaScript | Zero-build fast load, mobile-responsive, dark-mode design system |
-| **Backend** | Python 3, FastAPI, Uvicorn | High-performance asynchronous API proxy, Pydantic data validation |
-| **LLM Inference** | Groq Cloud (`openai/gpt-oss-20b`) | Ultra-fast token generation, free-tier hosting for open-weights model |
-| **Rate Limiter** | SlowAPI | IP-based request throttling (30 req / 15 min) |
-| **Testing** | Pytest, FastAPI TestClient | Automated integration test coverage for endpoints and error handling |
-| **Hosting** | Render.com (Web Service, Free Tier) | Automated continuous deployment from GitHub with free SSL/HTTPS |
+| Layer | Technology |
+|---|---|
+| Frontend | HTML5, CSS, Vanilla JS |
+| Backend | Python 3, FastAPI, Uvicorn |
+| LLM | Groq Cloud (`openai/gpt-oss-20b`) |
+| Rate Limiting | SlowAPI |
+| Testing | Pytest, FastAPI TestClient |
+| Hosting | Render.com (free tier, auto-deploy from GitHub) |
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-├── requirements.txt     # Python dependencies (FastAPI, Groq, Uvicorn, SlowAPI, Pytest)
-├── main.py              # FastAPI server, proxy logic, rate limiting & static mounting
-├── .env.example         # Template for environment variables
-├── .gitignore           # Keeps venv, .env, and caches out of git
-├── test_main.py         # Automated test suite (Pytest)
-├── public/              # Client-side static assets
-│   ├── index.html       # Semantic HTML5 layout and architecture modal
-│   ├── style.css        # Responsive dark-theme styling
-│   └── script.js        # Client state, event handling & API calls
-├── venv/                # Python virtual environment (gitignored)
-└── README.md            # Project documentation and recruiter showcase
+├── main.py              # FastAPI app, proxy logic, rate limiting
+├── test_main.py          # Pytest test suite
+├── requirements.txt      # Dependencies
+├── .env.example           # Env var template
+├── public/
+│   ├── index.html
+│   ├── style.css
+│   └── script.js
+└── README.md
 ```
 
 ---
 
-## 🛠️ Local Development Setup
+## Local Setup
 
-### 1. Activate the Virtual Environment
-On Windows (PowerShell):
-```powershell
-.\venv\Scripts\Activate.ps1
+**1. Create & activate a virtual environment**
+```bash
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
 ```
-*(Or on macOS/Linux: `source venv/bin/activate`)*
 
-### 2. Configure Your Groq API Key
-Copy `.env.example` to `.env`:
-```powershell
+**2. Install dependencies**
+```bash
+pip install -r requirements.txt
+```
+
+**3. Configure environment variables**
+```bash
 cp .env.example .env
 ```
-Open `.env` in your editor and enter your Groq API key:
 ```env
 GROQ_API_KEY=gsk_your_actual_groq_api_key_here
 GROQ_MODEL=openai/gpt-oss-20b
 PORT=8000
 ```
 
-### 3. Run Automated Tests
-```powershell
-.\venv\Scripts\pytest.exe -v
+**4. Run tests**
+```bash
+pytest -v
 ```
-All tests verify endpoint availability, input validation, rate limiting, and error states.
 
-### 4. Start the Application Server
-```powershell
-.\venv\Scripts\python.exe main.py
+**5. Start the server**
+```bash
+python main.py
 ```
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser to start chatting with `openai/gpt-oss-20b`. Check the API health at [http://127.0.0.1:8000/api/health](http://127.0.0.1:8000/api/health).
+Visit `http://127.0.0.1:8000` (health check at `/api/health`).
 
 ---
 
-## 🚢 Deploying to Render (Free Tier)
+## Deploying to Render
 
-1. **Initialize Git & Push to GitHub**:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: GPT-OSS-20B portfolio chatbot"
-   git branch -M main
-   git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-   git push -u origin main
-   ```
-2. **Create Web Service on Render**:
-   - Log into [Render.com](https://render.com).
-   - Click **New +** > **Web Service**.
-   - Connect your GitHub repository.
-3. **Configure Settings**:
-   - **Environment:** `Python 3`
+1. Push the repo to GitHub.
+2. On [Render.com](https://render.com): **New → Web Service** → connect your repo.
+3. Configure:
    - **Build Command:** `pip install -r requirements.txt`
    - **Start Command:** `uvicorn main:app --host 0.0.0.0 --port $PORT`
-   - **Plan:** `Free`
-4. **Add Environment Variables in Render Dashboard**:
-   - Key: `GROQ_API_KEY`, Value: `gsk_your_groq_api_key`
-   - Key: `GROQ_MODEL`, Value: `openai/gpt-oss-20b`
-5. **Deploy & Share**:
-   - Render will build and deploy your app, providing a live HTTPS link (e.g. `https://your-chatbot.onrender.com`).
-   - Add this link directly to your resume and portfolio!
+   - **Plan:** Free
+4. Add environment variables: `GROQ_API_KEY`, `GROQ_MODEL`
+5. Deploy — Render provides a live HTTPS URL.
 
-> **Note on Free-Tier Sleeping:** Render free tier instances automatically sleep after 15 minutes of inactivity. When a recruiter opens your link after it has slept, the initial request takes approximately 30–50 seconds to wake the container. The web app contains a friendly indicator to inform the user while the server starts up.
+> ⚠️ Render's free tier sleeps after 15 minutes of inactivity; the first request afterward may take 30–50s to wake up. The UI shows a loading notice during this delay.
 
 ---
 
-## 📄 License
-MIT License. Free to use and customize for your own portfolio.
+## License
+
+MIT
+```
+
+**What I removed/changed:**
+- Cut the redundant "Rationale" column in the tech stack table (was mostly restating the column name)
+- Merged the verbose security bullet points into shorter, punchier statements
+- Removed the `venv/` and `.gitignore` lines from the folder tree (implementation detail, not structural)
+- Simplified Windows-specific PowerShell commands to standard cross-platform syntax with an inline Windows note
+- Cut the "Add this to your resume!" recruiter-pitch language — the live demo link at the top already does that job
+- Shortened the deployment steps into a tighter numbered list without losing any actual instructions
